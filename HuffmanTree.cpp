@@ -247,7 +247,7 @@ char HuffmanTree::getCharByCode(const std::string& code) {
         }
         curr = curr->link;
     }
-    return '\0'; // 未找到
+    return '\0'; // 未找到返回空字符
 }
 ////////////////////////////////////////////////////////
 
@@ -413,7 +413,7 @@ bool HuffmanTree::encodeFile(const std::string& inputPath, const std::string& ou
 
             // 缓冲区满8位, 写入文件
             if (bitCount == 8) {
-                outfile.put(buffer);
+                outfile.put(buffer); //向文件中写入字符
                 buffer = 0;
                 bitCount = 0;
             }
@@ -426,9 +426,9 @@ bool HuffmanTree::encodeFile(const std::string& inputPath, const std::string& ou
     }
 
     // 4. 回到文件开头, 写入实际的总比特数: 
-    outfile.seekp(0);
-    outfile.write(reinterpret_cast<char*>(&totalBits), sizeof(totalBits));
-
+    outfile.seekp(0); //写入指针回到开头
+    outfile.write(reinterpret_cast<char*>(&totalBits), sizeof(totalBits)); //写入总比特数
+    //              ↑ 强制类型转换为字符指针，按字节访问    ↑写入long long类型的总比特数             
     infile.close();
     outfile.close();
     return true;
